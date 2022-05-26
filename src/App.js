@@ -1,23 +1,55 @@
-import logo from './logo.svg';
+
 import './App.css';
+import Navbar from './components/Navbar';
+import { Routes, Route, useParams, Link} from "react-router-dom"
+import CountryDetails from './components/CountryDetails';
+import { useState, useEffect } from 'react';
+import CountriesList from './components/CountriesList';
+
+
 
 function App() {
+
+  const [countries, setCountries] = useState([])
+
+  
+
+  useEffect(()=>{
+    getCountries()
+
+  }, [])
+   
+
+
+
+const getCountries = async () =>{
+
+    try{
+
+        const response = await fetch("https://ih-countries-api.herokuapp.com/countries")
+        const responseJSON = await response.json()
+        console.log(responseJSON)
+        setCountries(responseJSON.results)
+
+    }catch(err){
+        console.log(err)
+    }
+}
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <Navbar/>
+
+      
+
+      <Routes>
+        <Route to="/countries" element ={<CountriesList/>}/>
+        <Route path="/countries/:id" element= {<CountryDetails/>}/>
+
+      </Routes>
+      
+     
     </div>
   );
 }
