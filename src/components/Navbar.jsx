@@ -1,9 +1,11 @@
 
 import React from 'react'
-import { Link} from 'react-router-dom'
 
 
-function Navbar(props) {
+
+function Navbar() {
+
+  
 
     
     return (
@@ -11,7 +13,6 @@ function Navbar(props) {
 
         <h1> LAB-wikiCountries</h1>
         
-        <Link to="/countries">Countries</Link>
 
     </div>
   )

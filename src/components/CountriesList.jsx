@@ -1,12 +1,15 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+
+import { Link, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
 
 
 
-function CountriesList() {
+function CountriesList(props) {
 
-    const [countries, setCountries] = useState([])
+    
+
+    const [countriesList, setCountriesList] = useState([])
+    const {alpha3Code} = useParams()
    
     useEffect(()=>{
 
@@ -21,30 +24,39 @@ function CountriesList() {
             const response = await fetch("https://ih-countries-api.herokuapp.com/countries")
             const responseJSON = await response.json()
             console.log(responseJSON)
-            setCountries(responseJSON.results)
-        }catch(err){
+            
+            setCountriesList(responseJSON.results)
+        }catch(err) {
             console.log(err)
         }
     }
 
   return (
 
-    <div>
+   <div>
 
-        {countries.map((eachCountry)=>{
+      
+        {
+            countriesList.map((eachCountry)=>{
+                
 
-           return (
-            <li key={eachCountry.alpha3Code}>
+                return (
+                 <li>
+     
+                 <Link to={`/${eachCountry.alpha3Code}`}>{eachCountry.name.common}</Link>
+     
+                 </li>
+     
+                )
+                        
+                 
+             })}
 
-            <Link to={`/countries/${eachCountry.alpha3Code}`}>{eachCountry.alpha3Code}</Link>
+        </div>
 
-            </li>
 
-           )
-                   
-            
-        })}
-    </div>
+        
+    
   )
 }
 
